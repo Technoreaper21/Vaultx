@@ -1,0 +1,213 @@
+openapi: 3.0.3
+info:
+  title: VaultX API
+  version: 0.1.0
+  description: API for VaultX skill discovery platform
+servers:
+  - url: http://localhost:8000
+    description: Development server
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+  /auth/login:
+    post:
+      summary: Login to get JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: student
+                password:
+                  type: string
+                  example: password
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    example: fake-token
+                  token_type:
+                    type: string
+                    example: bearer
+                  role:
+                    type: string
+                    enum: [student, facilitator, mentor, admin]
+                    example: student
+        '401':
+          description: Invalid credentials
+  /activities:
+    get:
+      summary: Get list of activities
+      responses:
+        '200':
+          description: List of activities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: act1
+                    title:
+                      type: string
+                      example: Introduction to Coding
+                    description:
+                      type: string
+                      example: Learn basics of programming
+                    is_placeholder:
+                      type: boolean
+                      example: true
+                    source_url:
+                      type: string
+                      nullable: true
+                      example: null
+  /careers:
+    get:
+      summary: Get list of careers
+      responses:
+        '200':
+          description: List of careers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: career1
+                    title:
+                      type: string
+                      example: Software Developer
+                    description:
+                      type: string
+                      example: Build applications and systems
+                    is_placeholder:
+                      type: boolean
+                      example: true
+                    source_url:
+                      type: string
+                      nullable: true
+                      example: null
+  /opportunities:
+    get:
+      summary: Get list of opportunities
+      responses:
+        '200':
+          description: List of opportunities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: opp1
+                    title:
+                      type: string
+                      example: National Science Scholarship
+                    description:
+                      type: string
+                      example: Scholarship for students excelling in science
+                    eligibility_rules:
+                      type: object
+                      example:
+                        min_age: 14
+                        max_age: 20
+                        min_grade: 9
+                        subjects: ["science"]
+                    is_placeholder:
+                      type: boolean
+                      example: true
+                    source_url:
+                      type: string
+                      nullable: true
+                      example: null
+                    last_verified_at:
+                      type: string
+                      format: date-time
+                      example: 2026-01-01T00:00:00Z
+  /sync/push:
+    post:
+      summary: Push sync item (idempotent)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: client-generated-id-123
+                type:
+                  type: string
+                  example: activity_response
+                data:
+                  type: object
+                  description: Arbitrary data payload
+                client_timestamp:
+                  type: string
+                  format: date-time
+                  example: 2026-01-01T10:00:00Z
+              required:
+                - id
+                - type
+                - data
+      responses:
+        '200':
+          description: Sync result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [synced, already_exists]
+                    example: synced
+                  server_id:
+                    type: string
+                    example: client-generated-id-123
+                  message:
+                    type: string
+                    example: Item synced successfully
+        '400':
+          description: Bad request
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

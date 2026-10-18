@@ -1,0 +1,37 @@
+[
+  {
+    "id": "career1",
+    "title": "Software Developer",
+    "description": "Build applications and systems using various programming languages",
+    "is_placeholder": true,
+    "source_url": null
+  },
+  {
+    "id": "career2",
+    "title": "Data Analyst",
+    "description": "Analyze data to help make decisions and identify trends",
+    "is_placeholder": true,
+    "source_url": null
+  },
+  {
+    "id": "career3",
+    "title": "Digital Marketing Specialist",
+    "description": "Promote products and services online through social media and SEO",
+    "is_placeholder": true,
+    "source_url": null
+  },
+  {
+    "id": "career4",
+    "title": "Graphic Designer",
+    "description": "Create visual content for media using design software",
+    "is_placeholder": true,
+    "source_url": null
+  },
+  {
+    "id": "career5",
+    "title": "Renewable Energy Technician",
+    "description": "Work with solar and wind energy systems installation and maintenance",
+    "is_placeholder": true,
+    "source_url": null
+  }
+]
