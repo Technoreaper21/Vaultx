@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, 'feature/**' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          cd apps/api
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+      - name: Run tests
+        run: |
+          cd apps/api
+          source .venv/bin/activate
+          python -m pytest tests/ -v
+
+  test-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: |
+          cd apps/web
+          npm ci
+      - name: Run tests
+        run: |
+          cd apps/web
+          npm test
+
+  lint-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          cd apps/api
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+          pip install flake8
+      - name: Run linter
+        run: |
+          cd apps/api
+          source .venv/bin/activate
+          flake8 app/ --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 app/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+  lint-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: |
+          cd apps/web
+          npm ci
+      - name: Install ESLint
+        run: |
+          cd apps/web
+          npm install eslint --save-dev
+      - name: Run linter
+        run: |
+          cd apps/web
+          npx eslint src/ --ext .ts,.tsx

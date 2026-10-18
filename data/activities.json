@@ -1,0 +1,37 @@
+[
+  {
+    "id": "act1",
+    "title": "Introduction to Coding",
+    "description": "Learn basics of programming through interactive exercises",
+    "is_placeholder": true,
+    "source_url": null
+  },
+  {
+    "id": "act2",
+    "title": "Science Experiment",
+    "description": "Simple chemistry experiment using household items",
+    "is_placeholder": true,
+    "source_url": null
+  },
+  {
+    "id": "act3",
+    "title": "Math Olympiad Training",
+    "description": "Prepare for math competitions with problem-solving strategies",
+    "is_placeholder": true,
+    "source_url": null
+  },
+  {
+    "id": "act4",
+    "title": "Creative Writing Workshop",
+    "description": "Improve your writing skills with guided prompts and feedback",
+    "is_placeholder": true,
+    "source_url": null
+  },
+  {
+    "id": "act5",
+    "title": "Robotics Basics",
+    "description": "Build simple robots using Arduino and basic electronics",
+    "is_placeholder": true,
+    "source_url": null
+  }
+]
